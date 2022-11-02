@@ -1,3 +1,9 @@
+@use 'src/styles/_fonts.scss';
+@use 'src/styles/_popup.scss';
+@use 'src/styles/_table.scss';
+@use 'src/styles/_buttons.scss';
+
+
 .App {
   text-align: center;
 }
@@ -28,11 +34,10 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
+
+
+
+
+
+

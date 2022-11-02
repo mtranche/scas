@@ -1,0 +1,23 @@
+.modal {
+    .show {
+        display: block !important;
+    }
+    
+    label {
+        width: 25%;
+        float: left;
+    }
+    input{
+        width: 75%;
+    }
+
+    .form-group > h4 {
+        clear:both;
+        margin: 1.2rem 0;
+    }
+}
+
+.form-control-plaintext {
+    padding: 0.12rem;
+    line-height: 1;
+}

@@ -1,0 +1,75 @@
+.bg-theader {
+    background-color: rgb(45, 208, 121);
+
+    @media (max-width: 576px)  {
+        display:none;
+    }
+}
+
+.datatable tr{
+    cursor: pointer;
+}
+
+.edit-data {
+    border:none;
+    background-color: transparent;
+    padding:0;
+
+    &__isActive {
+        border-radius: 0.5rem;
+        border:1px solid grey;
+        padding: 0.2rem 0.5rem;
+        pointer-events:all;
+    }
+}
+
+.table-hover > tbody > tr:hover > * {
+	background-color:  rgb(196, 248, 220);
+}
+
+.table-striped > tbody > tr:nth-of-type(2n+1) > * {
+    background-color:  rgb(233, 252, 242);
+}
+
+
+td,
+th {
+
+    & > a {
+    color:  rgb(85, 163, 122);
+  
+    &:hover {
+        color:  rgb(85, 163, 122);
+    }
+  }  
+    .bi {
+        color: rgb(85, 163, 122);
+    }
+}
+
+td {
+    @media (max-width: 576px)  {
+        display:flex;
+        width: 100%;
+        padding: 0 1rem !important;
+        pointer-events: none;
+
+        .captn {
+            display: block;
+            font-weight: 700;
+            min-width: 7rem;
+        }
+
+        &.has-icon {
+            justify-content: flex-end;
+            height: 3rem;
+            align-items: center;
+        }
+    } 
+    
+    @media (min-width: 577px)  {
+        .captn {
+            display: none;
+        }
+    }
+}
