@@ -77,18 +77,16 @@ const SearchComponent = () => {
 
     
     // rowclick  
-    const  handleClickOpen = (ev) => {     
-        let us = parseInt(ev.target.ariaLabel)-1;
+    const  handleClickOpen = (ev) => {  
+        let us = ev.target.closest('tr')?ev.target.closest('tr').id-1:ev.target.id-1;
         //-> delete entry  
-        if(ev.target.ariaDescription === 'trash') { 
+        if((ev.target.parentNode.classList.contains('trash') || ev.target.parentNode.classList.contains('bi-trash'))) { 
             deleteEntry(us);
-            ev.preventDefault();
 
         }else{//-> show poup 
             setSelectedProfile(users[us]);       
             setPop(!popup);            
-            ev.preventDefault();
-        
+            ev.preventDefault();        
         }
     };
 
@@ -108,21 +106,36 @@ const SearchComponent = () => {
     }
     // handle new user data
     const handleAddUser = (ev) => {
-        let myform = document.getElementById(ev.target.parentNode.classList[0])
-        let elem = myform.elements;
-        let newwuser = datatoEdit;
+        let myform = document.getElementById(ev.target.parentNode.classList[0]);
+        if (validateForm(myform)){
+            let elem = myform.elements;
+            let newwuser = datatoEdit;
 
-        for(let ks in newwuser){
-            if(ks!=='id'){
-                newwuser[ks] = elem[ks].value
+            for(let ks in newwuser){
+                if(ks!=='id'){
+                    newwuser[ks] = elem[ks].value
+                }
             }
-        }
 
-        newwuser.id = results.length+1;
-        let temp = [...users, newwuser];
-        setUsers(temp);
-        results = users;        
-        setEditPop(false);
+            newwuser.id = results.length+1;
+            let temp = [...users, newwuser];
+            setUsers(temp);
+            results = users;        
+            setEditPop(false);
+        }
+    }
+
+    const validateForm = (f ) => {
+        document.querySelector('#validation-messages').innerHTML = "";
+        let els = f.elements;
+        let cont =  els.length -1;
+        for(var k in els){
+            if(els[k].value==="") {
+                document.querySelector('#validation-messages').innerHTML = `The value of ${els[k].id} can't be empty`;
+                cont--;
+            }
+        };
+        return cont===els.length-1;
     }
 
     //render the view
@@ -169,13 +182,13 @@ const SearchComponent = () => {
                         </thead>
                         <tbody>
                             {results.map ( (user) => (
-                                <tr key={user.id} id={user.id} onClick={handleClickOpen} className="datarow" aria-label={user.id} aria-description="">
-                                    <td aria-label={user.id} aria-description="" className="td-id"><div className="captn">Id: </div>{user.id}</td>
-                                    <td aria-label={user.id} aria-description=""><div className="captn">Name: </div> {user.name}</td>
-                                    <td aria-label={user.id} aria-description=""><div className="captn">Username: </div>{user.username} </td>
-                                    <td aria-label={user.id} aria-description=""><div className="captn">Phone: </div>{user.phone}</td>
-                                    <td aria-label={user.id} aria-description=""><div className="captn">Email: </div><a href="mailto:{user.email}" target="_blank" rel="noreferrer">{user.email}</a></td>
-                                    <td aria-label={user.id} className="has-icon trash" aria-description="trash"><i className="bi bi-trash" aria-description="trash" aria-label={user.id}></i></td>
+                                <tr key={user.id} id={user.id} onClick={handleClickOpen} className="datarow">
+                                    <td  className="td-id"><div className="captn">Id: </div>{user.id}</td>
+                                    <td ><div className="captn">Name: </div> {user.name}</td>
+                                    <td ><div className="captn">Username: </div>{user.username} </td>
+                                    <td ><div className="captn">Phone: </div>{user.phone}</td>
+                                    <td ><div className="captn">Email: </div><a href="mailto:{user.email}" target="_blank" rel="noreferrer">{user.email}</a></td>
+                                    <td className="has-icon trash"><i className="bi bi-trash"></i></td>
                                 </tr>
                             ))}
                         </tbody>
@@ -195,23 +208,24 @@ const SearchComponent = () => {
                                     <form id="adduserform" name="adduserform" method="post">                                        
                                         <div className="form-group mb-3">
                                             <label htmlFor="name">Name</label>
-                                            <input type="text" className="form-control" id="name" placeholder="Name" />
+                                            <input type="text" className="form-control" id="name" placeholder="Name" required />                                            
                                         </div>
                                         
                                         <div className="form-group mb-3">
                                             <label htmlFor="username">Username</label>
-                                            <input type="text" className="form-control" id="username" placeholder="Username" />
+                                            <input type="text" className="form-control" id="username" placeholder="Username" required />
                                         </div>
                                         
                                         <div className="form-group mb-3">
                                             <label htmlFor="phone">Phone</label>
-                                            <input type="text" className="form-control" id="phone" placeholder="Phone"   />
+                                            <input type="text" className="form-control" id="phone" placeholder="Phone" required  />
                                         </div>
                                         
                                         <div className="form-group">
                                             <label htmlFor="email">Email</label>
-                                            <input type="text" className="form-control" id="email" placeholder="Email"  />
-                                        </div>                                        
+                                            <input type="text" className="form-control" id="email" placeholder="Email" required  />
+                                        </div>
+                                        <div id="validation-messages" className="text-danger text-sm mt-3"></div>                                        
                                     </form>
                                 </div>
                                 <div className="adduserform modal-footer">
