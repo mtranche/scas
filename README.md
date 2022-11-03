@@ -1,5 +1,7 @@
 User list with search bar and order select.
+
 The name scas stands for Seat Code Assesment.
+
 The user list data is fetched from [https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users)
 
 - You can start writting in the `search` field and the search starts while you write.
